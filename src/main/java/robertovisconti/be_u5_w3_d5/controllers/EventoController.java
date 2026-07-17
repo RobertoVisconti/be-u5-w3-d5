@@ -11,7 +11,7 @@ import robertovisconti.be_u5_w3_d5.DTO.EventoDTO;
 import robertovisconti.be_u5_w3_d5.entities.Evento;
 import robertovisconti.be_u5_w3_d5.entities.Utente;
 import robertovisconti.be_u5_w3_d5.exceptions.BadRequestException;
-import robertovisconti.be_u5_w3_d5.exceptions.ValidationExceptions;
+import robertovisconti.be_u5_w3_d5.exceptions.ValidationException;
 import robertovisconti.be_u5_w3_d5.services.EventoService;
 
 import java.util.List;
@@ -48,7 +48,7 @@ public class EventoController {
             List<String> errori = validation.getAllErrors().stream()
                     .map(errore -> errore.getDefaultMessage())
                     .collect(Collectors.toList());
-            throw new ValidationExceptions(errori);
+            throw new ValidationException(errori);
         }
         return eventoService.save(body, utente);
     }
@@ -61,7 +61,7 @@ public class EventoController {
             List<String> errori = validation.getAllErrors().stream()
                     .map(error -> error.getDefaultMessage())
                     .collect(Collectors.toList());
-            throw new ValidationExceptions(errori);
+            throw new ValidationException(errori);
         }
         return eventoService.update(id, body, utente);
     }

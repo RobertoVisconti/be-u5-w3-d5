@@ -6,7 +6,7 @@ import robertovisconti.be_u5_w3_d5.entities.Evento;
 import robertovisconti.be_u5_w3_d5.entities.Utente;
 import robertovisconti.be_u5_w3_d5.enums.StatoPrenotazione;
 import robertovisconti.be_u5_w3_d5.exceptions.BadRequestException;
-import robertovisconti.be_u5_w3_d5.exceptions.NotFoundExceptions;
+import robertovisconti.be_u5_w3_d5.exceptions.NotFoundException;
 import robertovisconti.be_u5_w3_d5.exceptions.UnauthorizedException;
 import robertovisconti.be_u5_w3_d5.repositories.EventoRepository;
 import robertovisconti.be_u5_w3_d5.repositories.PrenotazioneRepository;
@@ -48,7 +48,7 @@ public class EventoService {
     }
 
     public Evento findById(UUID id) {
-        return eventoRepository.findById(id).orElseThrow(() -> new NotFoundExceptions(id));
+        return eventoRepository.findById(id).orElseThrow(() -> new NotFoundException(id));
     }
 
     public Evento update(UUID id, EventoDTO body, Utente utente) {

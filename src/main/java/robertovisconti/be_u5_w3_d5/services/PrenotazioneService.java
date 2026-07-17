@@ -7,7 +7,7 @@ import robertovisconti.be_u5_w3_d5.entities.Prenotazione;
 import robertovisconti.be_u5_w3_d5.entities.Utente;
 import robertovisconti.be_u5_w3_d5.enums.StatoPrenotazione;
 import robertovisconti.be_u5_w3_d5.exceptions.BadRequestException;
-import robertovisconti.be_u5_w3_d5.exceptions.NotFoundExceptions;
+import robertovisconti.be_u5_w3_d5.exceptions.NotFoundException;
 import robertovisconti.be_u5_w3_d5.exceptions.UnauthorizedException;
 import robertovisconti.be_u5_w3_d5.repositories.EventoRepository;
 import robertovisconti.be_u5_w3_d5.repositories.PrenotazioneRepository;
@@ -35,7 +35,7 @@ public class PrenotazioneService {
             throw new UnauthorizedException("Solo gli utenti normali possono effettuare prenotazioni");
         }
 
-        Evento evento = eventoRepository.findById(body.eventoId()).orElseThrow(() -> new NotFoundExceptions("Evento con ID: " + body.eventoId() + " non trovato"));
+        Evento evento = eventoRepository.findById(body.eventoId()).orElseThrow(() -> new NotFoundException("Evento con ID: " + body.eventoId() + " non trovato"));
 
         long prenotazioniAttive = prenotazioneRepository.countByEventoAndStatoPrenotazione(evento, StatoPrenotazione.ATTIVA);
 
@@ -52,7 +52,7 @@ public class PrenotazioneService {
     }
 
     public void annulla(UUID id, Utente utente) throws BadRequestException {
-        Prenotazione found = prenotazioneRepository.findById(id).orElseThrow(() -> new NotFoundExceptions(id));
+        Prenotazione found = prenotazioneRepository.findById(id).orElseThrow(() -> new NotFoundException(id));
         if (!found.getUtente().getId().equals(utente.getId())) {
             throw new UnauthorizedException("Non sei autorizzato ad annullare questa prenotazione");
         }

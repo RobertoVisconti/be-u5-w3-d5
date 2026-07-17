@@ -7,7 +7,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import robertovisconti.be_u5_w3_d5.DTO.UpdateUtenteDTO;
 import robertovisconti.be_u5_w3_d5.entities.Utente;
-import robertovisconti.be_u5_w3_d5.exceptions.ValidationExceptions;
+import robertovisconti.be_u5_w3_d5.exceptions.ValidationException;
 import robertovisconti.be_u5_w3_d5.services.UtenteService;
 
 import java.util.List;
@@ -34,7 +34,7 @@ public class UtenteController {
             List<String> errori = validation.getAllErrors().stream()
                     .map(error -> error.getDefaultMessage())
                     .collect(Collectors.toList());
-            throw new ValidationExceptions(errori);
+            throw new ValidationException(errori);
         }
         return utenteService.update(utente, body);
     }

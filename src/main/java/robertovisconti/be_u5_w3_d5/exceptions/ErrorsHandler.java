@@ -1,7 +1,6 @@
 package robertovisconti.be_u5_w3_d5.exceptions;
 
 import org.apache.coyote.BadRequestException;
-import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -14,41 +13,45 @@ import java.time.LocalDateTime;
 public class ErrorsHandler {
 
 
-    // LISTA GESTIONE ERRORI
-    @ExceptionHandler(ValidationExceptions.class)
+    // 1. GESTIONE ERRORI DI VALIDAZIONE (400 Bad Request)
+    @ExceptionHandler(ValidationException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ErrorsDTO handleValidationExceptions(ValidationExceptions ex) {
+    public ErrorsDTO handleValidationExceptions(ValidationException ex) {
         ex.printStackTrace();
         return new ErrorsDTO("Ci sono stati errori di validazione", LocalDateTime.now(), ex.getListaErrori());
     }
 
-
+    // 2. GESTIONE BAD REQUEST GENERICHE (400 Bad Request)
     @ExceptionHandler(BadRequestException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorsDTO handleBadRequest(BadRequestException ex) {
         ex.printStackTrace();
-        return new ErrorsDTO(ex.getMessage(), LocalDateTime.now());
-
+        return new ErrorsDTO(ex.getMessage(), LocalDateTime.now(), null);
     }
 
+    // 3. GESTIONE NON AUTORIZZATO (401 Unauthorized)
     @ExceptionHandler(UnauthorizedException.class)
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     public ErrorsDTO handleUnauthorized(UnauthorizedException ex) {
-        return new ErrorsDTO(ex.getMessage(), LocalDateTime.now());
-    }
-
-    @ExceptionHandler(ChangeSetPersister.NotFoundException.class)
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ErrorsDTO handleNotFound(NotFoundExceptions ex) {
         ex.printStackTrace();
-        return new ErrorsDTO(ex.getMessage(), LocalDateTime.now());
+        return new ErrorsDTO(ex.getMessage(), LocalDateTime.now(), null);
     }
 
+    // 4. GESTIONE NON TROVATO (404 Not Found)
+    @ExceptionHandler(NotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ErrorsDTO handleNotFound(NotFoundException ex) {
+        ex.printStackTrace();
+        return new ErrorsDTO(ex.getMessage(), LocalDateTime.now(), null);
+    }
+
+    // 5. GESTIONE DI QUALSIASI ALTRA ECCEZIONE IMPREVISTA (500 Internal Server Error)
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ErrorsDTO handleGenericError(Exception ex) {
         ex.printStackTrace();
-        return new ErrorsDTO("Errore interno del server: " + ex.getMessage(), LocalDateTime.now());
+        return new ErrorsDTO("Errore interno del server: " + ex.getMessage(), LocalDateTime.now(), null);
     }
-
 }
+
+

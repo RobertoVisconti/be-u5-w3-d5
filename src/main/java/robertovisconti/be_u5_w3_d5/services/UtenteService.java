@@ -4,7 +4,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import robertovisconti.be_u5_w3_d5.DTO.UpdateUtenteDTO;
 import robertovisconti.be_u5_w3_d5.entities.Utente;
-import robertovisconti.be_u5_w3_d5.exceptions.NotFoundExceptions;
+import robertovisconti.be_u5_w3_d5.exceptions.NotFoundException;
 import robertovisconti.be_u5_w3_d5.repositories.UtenteRepository;
 
 import java.util.UUID;
@@ -21,7 +21,7 @@ public class UtenteService {
     }
 
     public Utente findById(UUID id) {
-        return utenteRepository.findById(id).orElseThrow(() -> new NotFoundExceptions(id));
+        return utenteRepository.findById(id).orElseThrow(() -> new NotFoundException(id));
     }
 
     public Utente update(Utente utente, UpdateUtenteDTO body) {

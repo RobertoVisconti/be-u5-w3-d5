@@ -2,12 +2,12 @@ package robertovisconti.be_u5_w3_d5.exceptions;
 
 import java.util.UUID;
 
-public class NotFoundExceptions extends RuntimeException {
-    public NotFoundExceptions(UUID id) {
+public class NotFoundException extends RuntimeException {
+    public NotFoundException(UUID id) {
         super("Utente non trovato con ID: " + id);
     }
 
-    public NotFoundExceptions(String message) {
+    public NotFoundException(String message) {
         super(message);
     }
 
