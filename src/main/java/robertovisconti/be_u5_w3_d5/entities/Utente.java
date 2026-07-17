@@ -27,15 +27,19 @@ public class Utente {
     @Column(nullable = false, unique = true)
     private String email;
 
+    @Column(nullable = false)
+    private String password;
+
     @Enumerated(EnumType.STRING)
     private Ruolo ruolo;
 
 
-    public Utente(String nome, String cognome, String username, String email, Ruolo ruolo) {
+    public Utente(String nome, String cognome, String username, String email, String password, Ruolo ruolo) {
         this.nome = nome;
         this.cognome = cognome;
         this.username = username;
         this.email = email;
+        this.password = password;
         this.ruolo = Ruolo.UTENTE;
     }
 }
