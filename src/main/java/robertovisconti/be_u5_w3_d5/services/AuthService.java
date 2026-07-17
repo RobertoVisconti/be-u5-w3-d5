@@ -2,8 +2,10 @@ package robertovisconti.be_u5_w3_d5.services;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import robertovisconti.be_u5_w3_d5.DTO.LoginUtenteDTO;
 import robertovisconti.be_u5_w3_d5.DTO.RegistrazioneUtenteDTO;
 import robertovisconti.be_u5_w3_d5.entities.Utente;
+import robertovisconti.be_u5_w3_d5.exceptions.UnauthorizedException;
 import robertovisconti.be_u5_w3_d5.repositories.UtenteRepository;
 import robertovisconti.be_u5_w3_d5.security.JWTTools;
 
@@ -37,5 +39,14 @@ public class AuthService {
 
         return utenteRepository.save(utente);
 
+    }
+
+    public String autenticaUtenteEGeneraToken(LoginUtenteDTO body) {
+        Utente utente = utenteRepository.findByUsername(body.getUsername()).orElseThrow(() -> new UnauthorizedException("Credenziali non valide"));
+        if (!passwordEncoder.matches(body.getPassword(), utente.getPassword())) {
+            throw new UnauthorizedException("Credenziali non valide");
+        }
+
+        return jwtTools.generateToken(utente);
     }
 }
