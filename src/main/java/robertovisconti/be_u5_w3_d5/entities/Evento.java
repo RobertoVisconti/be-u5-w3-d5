@@ -2,12 +2,14 @@ package robertovisconti.be_u5_w3_d5.entities;
 
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 import java.util.UUID;
 
 @Entity
 @Getter
+@NoArgsConstructor
 public class Evento {
 
     @Id
