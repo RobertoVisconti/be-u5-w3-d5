@@ -37,7 +37,7 @@ public class PrenotazioneService {
 
         Evento evento = eventoRepository.findById(body.eventoId()).orElseThrow(() -> new NotFoundExceptions("Evento con ID: " + body.eventoId() + " non trovato"));
 
-        long prenotazioniAttive = prenotazioneRepository.countByEventoAndStato(evento, StatoPrenotazione.ATTIVA);
+        long prenotazioniAttive = prenotazioneRepository.countByEventoAndStatoPrenotazione(evento, StatoPrenotazione.ATTIVA);
 
         if (prenotazioniAttive >= evento.getPostiTotali()) {
             throw new BadRequestException(" I posti per questo evento sono esauriti");

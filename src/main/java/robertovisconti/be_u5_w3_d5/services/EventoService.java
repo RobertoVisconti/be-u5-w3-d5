@@ -73,7 +73,7 @@ public class EventoService {
             throw new UnauthorizedException("Non sei autorizzato a eliminare questo evento!");
         }
 
-        boolean prenotazioniAttive = prenotazioneRepository.existsByEventoAndStato(found, StatoPrenotazione.ATTIVA);
+        boolean prenotazioniAttive = prenotazioneRepository.existsByEventoAndStatoPrenotazione(found, StatoPrenotazione.ATTIVA);
 
         if (prenotazioniAttive) {
             throw new BadRequestException("Impossibile eliminare l'evento: ci sono ancora prenotazioni attive");

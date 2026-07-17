@@ -11,9 +11,9 @@ import java.util.UUID;
 
 public interface PrenotazioneRepository extends JpaRepository<Prenotazione, UUID> {
 
-    boolean existsByEventoAndStato(Evento evento, StatoPrenotazione statoPrenotazione);
+    boolean existsByEventoAndStatoPrenotazione(Evento evento, StatoPrenotazione statoPrenotazione);
 
     List<Prenotazione> findByUtente(Utente utente);
 
-    long countByEventoAndStato(Evento evento, StatoPrenotazione statoPrenotazione);
+    long countByEventoAndStatoPrenotazione(Evento evento, StatoPrenotazione statoPrenotazione);
 }
