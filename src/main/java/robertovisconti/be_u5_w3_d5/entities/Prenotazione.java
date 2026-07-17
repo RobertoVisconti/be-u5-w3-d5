@@ -16,6 +16,7 @@ public class Prenotazione {
 
     @Id
     @GeneratedValue
+    @Column(name = "id_prenotazione")
     private UUID id;
 
     @Column(name = "data_prenotazione", nullable = false)
@@ -25,11 +26,27 @@ public class Prenotazione {
     private StatoPrenotazione statoPrenotazione;
 
     @ManyToOne
-    @JoinColumn(name = "utente_id", nullable = false)
+    @JoinColumn(name = "id_evento", nullable = false)
     private Evento evento;
+
+    @ManyToOne
+    @JoinColumn(name = "id_utente", nullable = false)
+    private Utente utente;
 
     public Prenotazione(LocalDateTime dataPrenotazione, StatoPrenotazione statoPrenotazione) {
         this.dataPrenotazione = LocalDateTime.now();
         this.statoPrenotazione = StatoPrenotazione.ATTIVA;
+    }
+
+    public void setEvento(Evento evento) {
+        this.evento = evento;
+    }
+
+    public void setUtente(Utente utente) {
+        this.utente = utente;
+    }
+
+    public void setStatoPrenotazione(StatoPrenotazione statoPrenotazione) {
+        this.statoPrenotazione = statoPrenotazione;
     }
 }

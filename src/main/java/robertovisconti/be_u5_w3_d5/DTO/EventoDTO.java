@@ -21,8 +21,8 @@ public record EventoDTO(
         @NotBlank(message = "Il luogo dell'evento è obbligatorio")
         String luogo,
 
-        @NotNull(message = "Il numero di posti disponibili è obbligatorio")
+        @NotNull(message = "Il numero di posti totali è obbligatorio")
         @Min(value = 1, message = "Ci deve essere almeno un posto disponibile")
-        int postiDisponibili
+        int postiTotali
 ) {
 }

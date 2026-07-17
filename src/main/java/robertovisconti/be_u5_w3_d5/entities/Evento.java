@@ -14,6 +14,7 @@ public class Evento {
 
     @Id
     @GeneratedValue
+    @Column(name = "id_evento")
     private UUID id;
 
     @Column(nullable = false)
