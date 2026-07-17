@@ -4,9 +4,12 @@ import org.springframework.stereotype.Service;
 import robertovisconti.be_u5_w3_d5.DTO.EventoDTO;
 import robertovisconti.be_u5_w3_d5.entities.Evento;
 import robertovisconti.be_u5_w3_d5.entities.Utente;
+import robertovisconti.be_u5_w3_d5.enums.StatoPrenotazione;
+import robertovisconti.be_u5_w3_d5.exceptions.BadRequestException;
 import robertovisconti.be_u5_w3_d5.exceptions.NotFoundExceptions;
 import robertovisconti.be_u5_w3_d5.exceptions.UnauthorizedException;
 import robertovisconti.be_u5_w3_d5.repositories.EventoRepository;
+import robertovisconti.be_u5_w3_d5.repositories.PrenotazioneRepository;
 
 import java.util.List;
 import java.util.UUID;
@@ -15,9 +18,11 @@ import java.util.UUID;
 public class EventoService {
 
     private final EventoRepository eventoRepository;
+    private final PrenotazioneRepository prenotazioneRepository;
 
-    public EventoService(EventoRepository eventoRepository) {
+    public EventoService(EventoRepository eventoRepository, PrenotazioneRepository prenotazioneRepository) {
         this.eventoRepository = eventoRepository;
+        this.prenotazioneRepository = prenotazioneRepository;
     }
 
 
@@ -31,7 +36,7 @@ public class EventoService {
         nuovoEvento.setDescrizione(body.descrizione());
         nuovoEvento.setData(body.data());
         nuovoEvento.setLuogo(body.luogo());
-        nuovoEvento.setPostiTotali(body.postiDisponibili());
+        nuovoEvento.setPostiTotali(body.postiTotali());
         nuovoEvento.setOrganizzatore(utente);
 
         return eventoRepository.save(nuovoEvento);
@@ -57,18 +62,25 @@ public class EventoService {
         found.setDescrizione(body.descrizione());
         found.setData(body.data());
         found.setLuogo(body.luogo());
-        found.setPostiTotali(body.postiDisponibili());
+        found.setPostiTotali(body.postiTotali());
 
         return eventoRepository.save(found);
     }
 
-//    public void delete(UUID id, Utente utente) {
-//        Evento found = this.findById(id);
-//        if (!found.getOrganizzatore().getId().equals(utente.getId())) {
-//            throw new UnauthorizedException("Non sei autorizzato a eliminare questo evento!");
-//        }
-//        if (found.ge)
-//    }
+    public void delete(UUID id, Utente utente) {
+        Evento found = this.findById(id);
+        if (!found.getOrganizzatore().getId().equals(utente.getId())) {
+            throw new UnauthorizedException("Non sei autorizzato a eliminare questo evento!");
+        }
+
+        boolean prenotazioniAttive = prenotazioneRepository.existsByEventoAndStato(found, StatoPrenotazione.ATTIVA);
+
+        if (prenotazioniAttive) {
+            throw new BadRequestException("Impossibile eliminare l'evento: ci sono ancora prenotazioni attive");
+        }
+
+        eventoRepository.delete(found);
+    }
 
 
 }

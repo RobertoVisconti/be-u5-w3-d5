@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import robertovisconti.be_u5_w3_d5.DTO.EventoDTO;
 import robertovisconti.be_u5_w3_d5.entities.Evento;
 import robertovisconti.be_u5_w3_d5.entities.Utente;
+import robertovisconti.be_u5_w3_d5.exceptions.BadRequestException;
 import robertovisconti.be_u5_w3_d5.exceptions.ValidationExceptions;
 import robertovisconti.be_u5_w3_d5.services.EventoService;
 
@@ -62,5 +63,10 @@ public class EventoController {
         return eventoService.update(id, body, utente);
     }
 
-    
+    // DELETE /eventi/{id}
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteEvento(@PathVariable UUID id, @AuthenticationPrincipal Utente utente) throws BadRequestException {
+        eventoService.delete(id, utente);
+    }
 }
