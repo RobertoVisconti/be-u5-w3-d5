@@ -33,7 +33,7 @@ public class Utente {
     private String password;
 
     @Enumerated(EnumType.STRING)
-    private Ruolo ruolo;
+    private Ruolo ruolo = Ruolo.UTENTE;
 
 
     public Utente(String nome, String cognome, String username, String email, String password, Ruolo ruolo) {
@@ -42,7 +42,7 @@ public class Utente {
         this.username = username;
         this.email = email;
         this.password = password;
-        this.ruolo = Ruolo.UTENTE;
+        this.ruolo = ruolo;
     }
 
     public void setNome(String nome) {

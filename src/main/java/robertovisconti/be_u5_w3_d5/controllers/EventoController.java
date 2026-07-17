@@ -41,7 +41,7 @@ public class EventoController {
 
     // POST /eventi (solo organizzatori)
     @PostMapping
-    @PreAuthorize("hasAuthority('ORGANIZZATORE_EVENTO')")
+    @PreAuthorize("hasAuthority('ORGANIZZATORE_EVENTI')")
     @ResponseStatus(HttpStatus.CREATED)
     public Evento creaEvento(@RequestBody @Validated EventoDTO body, BindingResult validation, @AuthenticationPrincipal Utente utente) {
         if (validation.hasErrors()) {
@@ -55,7 +55,7 @@ public class EventoController {
 
     // PUT /eventi/{id} (solo organizzatori proprietario dell'evento)
     @PutMapping("/{id}")
-    @PreAuthorize("hasAuthority('ORGANIZZATORE_EVENTO')")
+    @PreAuthorize("hasAuthority('ORGANIZZATORE_EVENTI')")
     public Evento updateEvento(@PathVariable UUID id, @RequestBody @Validated EventoDTO body, BindingResult validation, @AuthenticationPrincipal Utente utente) {
         if (validation.hasErrors()) {
             List<String> errori = validation.getAllErrors().stream()
@@ -68,7 +68,7 @@ public class EventoController {
 
     // DELETE /eventi/{id}
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasAuthority('ORGANIZZATORE_EVENTO')")
+    @PreAuthorize("hasAuthority('ORGANIZZATORE_EVENTI')")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteEvento(@PathVariable UUID id, @AuthenticationPrincipal Utente utente) throws BadRequestException {
         eventoService.delete(id, utente);
