@@ -42,4 +42,28 @@ public class Evento {
         this.luogo = luogo;
         this.postiTotali = postiTotali;
     }
+
+    public void setTitolo(String titolo) {
+        this.titolo = titolo;
+    }
+
+    public void setDescrizione(String descrizione) {
+        this.descrizione = descrizione;
+    }
+
+    public void setData(LocalDate data) {
+        this.data = data;
+    }
+
+    public void setLuogo(String luogo) {
+        this.luogo = luogo;
+    }
+
+    public void setPostiTotali(int postiTotali) {
+        this.postiTotali = postiTotali;
+    }
+
+    public void setOrganizzatore(Utente organizzatore) {
+        this.organizzatore = organizzatore;
+    }
 }
