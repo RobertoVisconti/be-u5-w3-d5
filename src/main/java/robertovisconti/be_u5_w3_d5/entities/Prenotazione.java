@@ -23,7 +23,7 @@ public class Prenotazione {
     private LocalDateTime dataPrenotazione = LocalDateTime.now();
 
     @Enumerated(EnumType.STRING)
-    private StatoPrenotazione statoPrenotazione;
+    private StatoPrenotazione statoPrenotazione = StatoPrenotazione.ATTIVA;
 
     @ManyToOne
     @JoinColumn(name = "id_evento", nullable = false)
@@ -35,7 +35,7 @@ public class Prenotazione {
 
     public Prenotazione(LocalDateTime dataPrenotazione, StatoPrenotazione statoPrenotazione) {
         this.dataPrenotazione = dataPrenotazione;
-        this.statoPrenotazione = StatoPrenotazione.ATTIVA;
+        this.statoPrenotazione = statoPrenotazione;
     }
 
     public void setEvento(Evento evento) {
