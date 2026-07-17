@@ -22,19 +22,19 @@ public class AuthService {
     }
 
     public Utente registraUtente(RegistrazioneUtenteDTO body) {
-        if (utenteRepository.existsByEmail(body.getEmail())) {
+        if (utenteRepository.existsByEmail(body.email())) {
             throw new IllegalArgumentException("Email già in uso");
         }
-        if (utenteRepository.existsByUsername(body.getUsername())) {
+        if (utenteRepository.existsByUsername(body.username())) {
             throw new IllegalArgumentException("Username già in uso");
         }
         Utente utente = new Utente();
-        utente.setNome(body.getNome());
-        utente.setCognome(body.getCognome());
-        utente.setUsername(body.getUsername());
-        utente.setEmail(body.getEmail());
+        utente.setNome(body.nome());
+        utente.setCognome(body.cognome());
+        utente.setUsername(body.username());
+        utente.setEmail(body.email());
 
-        String passwordCriptata = passwordEncoder.encode(body.getPassword());
+        String passwordCriptata = passwordEncoder.encode(body.password());
         utente.setPassword(passwordCriptata);
 
         return utenteRepository.save(utente);
@@ -42,8 +42,8 @@ public class AuthService {
     }
 
     public String autenticaUtenteEGeneraToken(LoginUtenteDTO body) {
-        Utente utente = utenteRepository.findByUsername(body.getUsername()).orElseThrow(() -> new UnauthorizedException("Credenziali non valide"));
-        if (!passwordEncoder.matches(body.getPassword(), utente.getPassword())) {
+        Utente utente = utenteRepository.findByUsername(body.username()).orElseThrow(() -> new UnauthorizedException("Credenziali non valide"));
+        if (!passwordEncoder.matches(body.password(), utente.getPassword())) {
             throw new UnauthorizedException("Credenziali non valide");
         }
 
