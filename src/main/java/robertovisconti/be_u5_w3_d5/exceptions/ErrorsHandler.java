@@ -1,7 +1,8 @@
 package robertovisconti.be_u5_w3_d5.exceptions;
 
-import org.apache.coyote.BadRequestException;
+
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -26,7 +27,7 @@ public class ErrorsHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorsDTO handleBadRequest(BadRequestException ex) {
         ex.printStackTrace();
-        return new ErrorsDTO(ex.getMessage(), LocalDateTime.now(), null);
+        return new ErrorsDTO(ex.getMessage(), LocalDateTime.now());
     }
 
     // 3. GESTIONE NON AUTORIZZATO (401 Unauthorized)
@@ -34,7 +35,7 @@ public class ErrorsHandler {
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     public ErrorsDTO handleUnauthorized(UnauthorizedException ex) {
         ex.printStackTrace();
-        return new ErrorsDTO(ex.getMessage(), LocalDateTime.now(), null);
+        return new ErrorsDTO(ex.getMessage(), LocalDateTime.now());
     }
 
     // 4. GESTIONE NON TROVATO (404 Not Found)
@@ -42,15 +43,23 @@ public class ErrorsHandler {
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ErrorsDTO handleNotFound(NotFoundException ex) {
         ex.printStackTrace();
-        return new ErrorsDTO(ex.getMessage(), LocalDateTime.now(), null);
+        return new ErrorsDTO(ex.getMessage(), LocalDateTime.now());
     }
 
-    // 5. GESTIONE DI QUALSIASI ALTRA ECCEZIONE IMPREVISTA (500 Internal Server Error)
+    // 5. GESTIONE ACCESSO NEGATO
+    @ExceptionHandler(AccessDeniedException.class)
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    public ErrorsDTO handleAccessDenied(AccessDeniedException ex) {
+        ex.printStackTrace();
+        return new ErrorsDTO("Non hai i permessi per eseguire questa operazione", LocalDateTime.now());
+    }
+
+    // 6. GESTIONE DI QUALSIASI ALTRA ECCEZIONE IMPREVISTA (500 Internal Server Error)
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ErrorsDTO handleGenericError(Exception ex) {
         ex.printStackTrace();
-        return new ErrorsDTO("Errore interno del server: " + ex.getMessage(), LocalDateTime.now(), null);
+        return new ErrorsDTO("Errore interno del server: " + ex.getMessage(), LocalDateTime.now());
     }
 }
 

@@ -1,5 +1,6 @@
 package robertovisconti.be_u5_w3_d5.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -30,6 +31,7 @@ public class Utente {
     private String email;
 
     @Column(nullable = false)
+    @JsonIgnore
     private String password;
 
     @Enumerated(EnumType.STRING)

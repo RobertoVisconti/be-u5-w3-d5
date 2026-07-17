@@ -27,7 +27,7 @@ public class EventoService {
 
 
     public Evento save(EventoDTO body, Utente utente) {
-        if (!utente.getRuolo().name().equals("ORGANIZZATORE_EVENTO")) {
+        if (!utente.getRuolo().name().equals("ORGANIZZATORE_EVENTI")) {
             throw new UnauthorizedException("Solo gli organizzatori possono creare eventi!");
         }
 

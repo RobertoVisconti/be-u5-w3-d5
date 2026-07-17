@@ -8,6 +8,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.util.AntPathMatcher;
@@ -16,6 +18,7 @@ import robertovisconti.be_u5_w3_d5.entities.Utente;
 import robertovisconti.be_u5_w3_d5.exceptions.UnauthorizedException;
 import robertovisconti.be_u5_w3_d5.services.UtenteService;
 
+import java.util.List;
 import java.util.UUID;
 
 @Component
@@ -47,7 +50,9 @@ public class TokenFilter extends OncePerRequestFilter {
         String id = this.jwtTools.extractIdFromToken(accessToken);
         Utente utente = utenteService.findById(UUID.fromString(id));
 
-        Authentication authentication = new UsernamePasswordAuthenticationToken(utente, null, null);
+        List<GrantedAuthority> authorities = List.of(new SimpleGrantedAuthority(utente.getRuolo().name()));
+
+        Authentication authentication = new UsernamePasswordAuthenticationToken(utente, null, authorities);
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
         // 4. Token ok
