@@ -20,7 +20,7 @@ public class Prenotazione {
     private UUID id;
 
     @Column(name = "data_prenotazione", nullable = false)
-    private LocalDateTime dataPrenotazione;
+    private LocalDateTime dataPrenotazione = LocalDateTime.now();
 
     @Enumerated(EnumType.STRING)
     private StatoPrenotazione statoPrenotazione;
@@ -34,7 +34,7 @@ public class Prenotazione {
     private Utente utente;
 
     public Prenotazione(LocalDateTime dataPrenotazione, StatoPrenotazione statoPrenotazione) {
-        this.dataPrenotazione = LocalDateTime.now();
+        this.dataPrenotazione = dataPrenotazione;
         this.statoPrenotazione = StatoPrenotazione.ATTIVA;
     }
 
