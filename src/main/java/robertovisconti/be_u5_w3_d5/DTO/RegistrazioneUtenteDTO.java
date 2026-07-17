@@ -4,7 +4,9 @@ package robertovisconti.be_u5_w3_d5.DTO;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
+import lombok.Getter;
 
+@Getter
 public class RegistrazioneUtenteDTO {
 
     @NotBlank(message = "Il nome è obbligatorio")
@@ -24,5 +26,5 @@ public class RegistrazioneUtenteDTO {
     @NotBlank(message = "La password è obbligatoria")
     @Size(min = 6, message = "La password deve avere almeno 6 caratteri")
     private String password;
-    
+
 }

@@ -2,12 +2,14 @@ package robertovisconti.be_u5_w3_d5.entities;
 
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import robertovisconti.be_u5_w3_d5.enums.Ruolo;
 
 import java.util.UUID;
 
 @Entity
 @Getter
+@NoArgsConstructor
 public class Utente {
 
     @Id
@@ -41,5 +43,25 @@ public class Utente {
         this.email = email;
         this.password = password;
         this.ruolo = Ruolo.UTENTE;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public void setCognome(String cognome) {
+        this.cognome = cognome;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }
