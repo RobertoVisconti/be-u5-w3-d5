@@ -2,6 +2,7 @@ package robertovisconti.be_u5_w3_d5.controllers;
 
 
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
@@ -29,6 +30,7 @@ public class PrenotazioneController {
 
     // /prenotazioni/me
     @GetMapping("/me")
+    @PreAuthorize("hasAuthority('UTENTE')")
     public List<Prenotazione> getMePrenotazioni(@AuthenticationPrincipal Utente utente) {
         return prenotazioneService.findByUtente(utente);
     }
@@ -36,6 +38,7 @@ public class PrenotazioneController {
 
     // /prenotazioni
     @PostMapping
+    @PreAuthorize("hasAuthority('UTENTE')")
     @ResponseStatus(HttpStatus.CREATED)
     public Prenotazione save(@RequestBody @Validated PrenotazioneDTO body, BindingResult validation, @AuthenticationPrincipal Utente utente) throws BadRequestException {
         if (validation.hasErrors()) {
@@ -51,6 +54,7 @@ public class PrenotazioneController {
 
     // /prenotazioni/{id}
     @PutMapping("/{id}")
+    @PreAuthorize("hasAuthority('UTENTE')")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void annullaPrenotazione(@PathVariable UUID id, @AuthenticationPrincipal Utente utente) throws BadRequestException {
         prenotazioneService.annulla(id, utente);
