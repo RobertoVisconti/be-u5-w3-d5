@@ -35,7 +35,7 @@ public class PrenotazioneService {
             throw new UnauthorizedException("Solo gli utenti normali possono effettuare prenotazioni");
         }
 
-        Evento evento = eventoRepository.findById(body.eventoId()).orElseThrow(() -> new NotFoundExceptions(id));
+        Evento evento = eventoRepository.findById(body.eventoId()).orElseThrow(() -> new NotFoundExceptions("Evento con ID: " + body.eventoId() + " non trovato"));
 
         long prenotazioniAttive = prenotazioneRepository.countByEventoAndStato(evento, StatoPrenotazione.ATTIVA);
 

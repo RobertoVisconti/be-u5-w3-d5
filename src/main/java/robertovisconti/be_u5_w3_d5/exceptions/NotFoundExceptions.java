@@ -6,4 +6,10 @@ public class NotFoundExceptions extends RuntimeException {
     public NotFoundExceptions(UUID id) {
         super("Utente non trovato con ID: " + id);
     }
+
+    public NotFoundExceptions(String message) {
+        super(message);
+    }
+
+
 }
