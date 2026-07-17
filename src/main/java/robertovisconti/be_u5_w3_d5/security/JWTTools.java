@@ -42,5 +42,18 @@ public class JWTTools {
 
     }
 
+    public String extractIdFromToken(String token) {
+        try {
+            return Jwts.parser()
+                    .verifyWith(Keys.hmacShaKeyFor(secret.getBytes()))
+                    .build()
+                    .parseSignedClaims(token)
+                    .getPayload()
+                    .getSubject();
+        } catch (Exception ex) {
+            throw new UnauthorizedException("Impossibile decifrare il token!");
+        }
+    }
+
 
 }
